@@ -42,3 +42,10 @@ primary_region = "fra"  # Frankfurt — colle a la base Neon (eu-central-1) : la
 [[vm]]
   size = "shared-cpu-2x"
   memory = "1gb"
+
+# IMPORTANT : UNE SEULE machine. Le Redis (file BullMQ) est LOCAL au conteneur ;
+# avec plusieurs machines, chacune a son propre Redis et les jobs enfiles sur
+# l'une seraient invisibles au worker de l'autre. Fly cree 2 machines par defaut
+# (haute dispo) : apres le 1er deploy, supprimer la machine en trop et deployer
+# avec `--ha=false`. Pour scaler un jour : externaliser Redis (Upstash) AVANT
+# d'ajouter des machines.
