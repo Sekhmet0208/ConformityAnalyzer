@@ -1,0 +1,34 @@
+# Dependances (reinstallees dans l'image via npm ci)
+node_modules
+web/node_modules
+
+# Build Next.js (regenere dans l'image)
+web/.next
+web/out
+
+# Donnees / artefacts locaux
+data
+*.db
+*.db-*
+report.json
+coverage
+test-results
+playwright-report
+
+# Environnement & secrets (fournis via Fly secrets, jamais dans l'image)
+.env
+.env.*
+web/.env
+web/.env.*
+
+# Git / IDE / OS
+.git
+.gitignore
+.vscode
+.idea
+.DS_Store
+*.log
+
+# Docs & tests (inutiles a l'execution en prod)
+docs
+tests

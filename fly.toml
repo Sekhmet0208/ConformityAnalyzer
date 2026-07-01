@@ -1,0 +1,44 @@
+# fly.toml — deploiement mono-conteneur (Next + worker + redis local).
+#
+# Renommer "app" avec le nom reel choisi via `fly launch` / `fly apps create`.
+# Postgres est EXTERNE (Neon) : fourni par le secret DATABASE_URL (voir plus bas).
+#
+# Secrets a definir (JAMAIS dans ce fichier — ils sont versionnes) :
+#   fly secrets set DATABASE_URL="postgres://...neon.tech/db?sslmode=require"
+#   fly secrets set STRIPE_SECRET_KEY="sk_..."         # optionnel (sinon simule)
+#   fly secrets set STRIPE_PRICE_ID="price_..."        # si Stripe reel
+#   fly secrets set STRIPE_WEBHOOK_SECRET="whsec_..."  # si Stripe reel
+
+app = "compliance-scan"
+primary_region = "cdg"  # Paris — au plus pres des utilisateurs et de Neon EU.
+
+[build]
+  dockerfile = "Dockerfile"
+
+[env]
+  NODE_ENV = "production"
+  # Redis local au conteneur (lance par scripts/start-container.mjs).
+  REDIS_URL = "redis://127.0.0.1:6379"
+  # Le bypass dev de paywall DOIT etre desactive en prod.
+  ALLOW_TIER_OVERRIDE = "false"
+  # Concurrence du worker de scan (Chromium est gourmand : rester bas).
+  SCAN_CONCURRENCY = "2"
+
+[http_service]
+  internal_port = 3000
+  force_https = true
+  auto_stop_machines = "stop"
+  auto_start_machines = true
+  # >= 1 : le worker doit rester vivant pour consommer la file meme sans trafic
+  # web. Si on laisse la machine s'endormir, les jobs ne sont plus traites.
+  min_machines_running = 1
+
+  [http_service.concurrency]
+    type = "requests"
+    soft_limit = 40
+    hard_limit = 60
+
+# Chromium a besoin de RAM : 1 Go conseille (512 Mo = minimum a risque d'OOM).
+[[vm]]
+  size = "shared-cpu-2x"
+  memory = "1gb"

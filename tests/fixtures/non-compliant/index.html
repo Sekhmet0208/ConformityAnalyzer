@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Boutique Exemple</title>
+    <style>
+      body { font-family: sans-serif; margin: 0; }
+      /* Contraste volontairement insuffisant (gris clair sur blanc). */
+      .low-contrast { color: #bbbbbb; background: #ffffff; }
+      header { background: #f5f5f5; padding: 12px; }
+      main { padding: 16px; }
+      footer { padding: 12px; background: #eee; }
+    </style>
+    <!-- Google Analytics charge immediatement, AVANT tout consentement. -->
+    <script>
+      // Simule le depot d'un cookie _ga avant consentement.
+      document.cookie = '_ga=GA1.2.1234567890.1700000000; path=/';
+    </script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXX"></script>
+  </head>
+  <body>
+    <header>
+      <!-- Saut de hierarchie : on commence par h3, pas de h1. -->
+      <h3>Boutique Exemple</h3>
+      <nav>
+        <a href="/">Accueil</a>
+        <a href="/produits">Produits</a>
+        <a href="/contact">Contact</a>
+      </nav>
+    </header>
+    <main>
+      <p class="low-contrast">
+        Bienvenue sur notre boutique. Texte a contraste insuffisant.
+      </p>
+
+      <!-- Image sans attribut alt. -->
+      <img src="/banner.png" width="300" height="120" />
+
+      <h5>Nos offres</h5>
+      <p>Decouvrez nos produits exceptionnels.</p>
+
+      <!-- Formulaire collectant des donnees personnelles SANS mention de
+           finalite ni lien vers une politique de confidentialite. -->
+      <form action="/subscribe" method="post">
+        <input type="email" name="email" placeholder="Votre email" />
+        <input type="text" name="nom" placeholder="Votre nom" />
+        <button type="submit">S'inscrire</button>
+      </form>
+    </main>
+    <footer>
+      <!-- Aucune mention legale, aucune politique de confidentialite. -->
+      <p>&copy; 2025 Boutique Exemple</p>
+    </footer>
+  </body>
+</html>
