@@ -9,8 +9,8 @@
 #   fly secrets set STRIPE_PRICE_ID="price_..."        # si Stripe reel
 #   fly secrets set STRIPE_WEBHOOK_SECRET="whsec_..."  # si Stripe reel
 
-app = "compliance-scan"
-primary_region = "cdg"  # Paris — au plus pres des utilisateurs et de Neon EU.
+app = "conformity-analyzer"
+primary_region = "fra"  # Frankfurt — colle a la base Neon (eu-central-1) : latence DB minimale.
 
 [build]
   dockerfile = "Dockerfile"
